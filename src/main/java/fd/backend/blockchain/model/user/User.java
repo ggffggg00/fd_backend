@@ -1,6 +1,6 @@
 package fd.backend.blockchain.model.user;
 
-import fd.backend.blockchain.model.Company;
+import fd.backend.blockchain.model.company.Company;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
-import java.util.UUID;
 
 @Setter
 @Getter
@@ -30,7 +29,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToOne(orphanRemoval = true)
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     private Company company;
 

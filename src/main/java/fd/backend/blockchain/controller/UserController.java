@@ -17,9 +17,16 @@ public class UserController {
 
     /**
      * {
-     *     "password":"123",
-     *     "companyName":"ОО пиздец",
-     *     "role":"ADMIN"
+     *     "password":"500",
+     *     "companyName":"ООО НСК-ДОМ",
+     *     "role":"CARRIER",
+     *     "company": {
+     *         "title":"ООО тест",
+     *         "tax_id":"TAKSA",
+     *         "ogrn":"ogrin",
+     *         "legal_address":"legalAddress",
+     *         "phone":"8903"
+     *     }
      * }
      */
     @PostMapping(REGISTER_URL)
@@ -27,5 +34,6 @@ public class UserController {
     public void registerUser(@RequestBody UserDto userDto) {
         userService.save(userDto);
     }
+
 
 }

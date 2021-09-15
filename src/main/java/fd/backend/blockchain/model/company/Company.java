@@ -1,4 +1,4 @@
-package fd.backend.blockchain.model;
+package fd.backend.blockchain.model.company;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

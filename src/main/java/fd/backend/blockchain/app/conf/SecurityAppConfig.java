@@ -22,8 +22,8 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/*").permitAll()
-                .antMatchers("/testURL").hasAuthority(Role.ADMIN.getAuthority())
+//                .antMatchers("/*").permitAll()
+                .antMatchers("/testURL").hasAuthority("ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/login")

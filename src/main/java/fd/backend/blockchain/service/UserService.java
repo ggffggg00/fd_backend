@@ -1,7 +1,11 @@
 package fd.backend.blockchain.service;
 
+import fd.backend.blockchain.model.company.Company;
+import fd.backend.blockchain.model.company.CompanyDto;
 import fd.backend.blockchain.model.user.Role;
 import fd.backend.blockchain.model.user.UserDto;
+import fd.backend.blockchain.repo.BlockChainNodeRepo;
+import fd.backend.blockchain.repo.CompanyRepository;
 import fd.backend.blockchain.repo.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,9 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
+    private CompanyRepository companyRepository;
+
+    @Autowired
     @Qualifier("bCryptEncode")
     private PasswordEncoder passwordEncoder;
 
@@ -42,15 +49,16 @@ public class UserService implements UserDetailsService {
         return 0;
     }
 
-    //TODO
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userRepository.findByCompanyName(username);
+    public UserDetails loadUserByUsername(String companyTitle) throws UsernameNotFoundException {
+        var user = userRepository.findByCompany(
+                companyRepository.findByTitle(companyTitle).getTitle()
+        );
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("User '%s' not found", username));
+            throw new UsernameNotFoundException(String.format("User '%s' not found", companyTitle));
         }
-        return new User(null, user.getPassword(), listAuthority(user.getRoles()));
+        return new User(user.getCompany().getTitle(), user.getPassword(), listAuthority(user.getRoles()));
     }
 
     /**
@@ -62,13 +70,28 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
     }
 
-    //TODO
+    /**
+     * Конвертер красивый!
+     * @param user
+     * @return
+     */
     private fd.backend.blockchain.model.user.User convertUserDtoToEntity(UserDto user) {
-        return new fd.backend.blockchain.model.user.User(
-                null,
-                passwordEncoder.encode(user.getPassword()),
-                Collections.singleton(user.getRole()),
-                null
-        );
+        var userEntity = new fd.backend.blockchain.model.user.User();
+        userEntity.setId(null);
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+        userEntity.setRoles(Collections.singleton(user.getRole()));
+        userEntity.setCompany(convertCompanyDtotoCompany(user.getCompany()));
+        return userEntity;
+    }
+    
+    private Company convertCompanyDtotoCompany(CompanyDto companyDto) {
+        Company company = new Company();
+        company.setId(company.getId());
+        company.setLegalAddress(companyDto.getLegalAddress());
+        company.setOgrn(companyDto.getOgrn());
+        company.setTaxIdentifier(companyDto.getTaxIdentifier());
+        company.setTitle(companyDto.getTitle());
+        company.setContactPhoneNumber(companyDto.getContactPhoneNumber());
+        return company;
     }
 }

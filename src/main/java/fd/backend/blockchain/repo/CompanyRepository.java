@@ -1,12 +1,12 @@
 package fd.backend.blockchain.repo;
 
-import fd.backend.blockchain.model.user.User;
+import fd.backend.blockchain.model.company.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface CompanyRepository extends JpaRepository<Company, Long> {
 
-    User findByCompany(String companyTitle);
+    Company findByTitle(String title);
 
 }
