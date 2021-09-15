@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Table(schema = "public")
 @Entity(name = "company")
 @RequiredArgsConstructor
+@Accessors(chain = true)
 public class Company {
 
     @Id
@@ -44,5 +46,9 @@ public class Company {
 
     @Column(name = "phone", nullable = false)
     private String contactPhoneNumber;
+
+    @Column(name = "aes_key", nullable = true)
+    private String aesKey;
+
 
 }

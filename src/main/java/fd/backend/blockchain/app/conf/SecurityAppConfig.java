@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.management.ObjectName;
+
 @Configuration
 public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 
@@ -21,16 +23,20 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-//                .antMatchers("/*").permitAll()
-                .antMatchers("/testURL").hasAuthority("ADMIN")
-                .and()
+        http.csrf().disable()
+                    .authorizeRequests()
+                    .antMatchers("/secured/**", "/api/*").hasRole("CARRIER")
+                    .antMatchers("/actuator/*").permitAll()
+                    .antMatchers("/login/").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
                 .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
+                    .loginPage("/login")
+                    .permitAll()
+                    .and()
                 .logout()
-                .permitAll();
+                    .deleteCookies("JSESSIONID")
+                    .permitAll();
     }
 
     @Bean(name = "bCryptEncode")
