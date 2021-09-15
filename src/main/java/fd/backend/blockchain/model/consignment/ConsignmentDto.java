@@ -1,6 +1,7 @@
-package fd.backend.blockchain.model;
+package fd.backend.blockchain.model.consignment;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,27 +9,14 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.UUID;
 
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "consignment", schema = "public")
-@Entity
-public class Consignment {
-    //User object
-    //User (id, hashPass, companyId?)
+public class ConsignmentDto {
 
-    Long id;
+    String id;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Id
-    public Long getId() {
-        return id;
-    }
     // Id (int?)
     // Дата создания (@TimeStamp?)
     // отправитель (User)

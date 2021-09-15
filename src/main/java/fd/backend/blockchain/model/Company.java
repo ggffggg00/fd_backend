@@ -2,7 +2,7 @@ package fd.backend.blockchain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -16,9 +16,9 @@ import java.util.UUID;
 @Setter
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "company", schema = "public")
-@Entity
+@Table(schema = "public")
+@Entity(name = "company")
+@RequiredArgsConstructor
 public class Company {
 
     @Id
@@ -30,14 +30,19 @@ public class Company {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "tax_id", nullable = false)
     private String taxIdentifier;
 
+    @Column(name = "ogrn", nullable = false)
     private String ogrn;
 
+    @Column(name = "legal_address", nullable = false)
     private String legalAddress;
 
+    @Column(name = "phone", nullable = false)
     private String contactPhoneNumber;
 
 }

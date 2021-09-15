@@ -42,6 +42,7 @@ public class UserService implements UserDetailsService {
         return 0;
     }
 
+    //TODO
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -49,7 +50,7 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User '%s' not found", username));
         }
-        return new User(user.getCompanyName(), user.getPassword(), listAuthority(user.getRoles()));
+        return new User(null, user.getPassword(), listAuthority(user.getRoles()));
     }
 
     /**
@@ -61,12 +62,13 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
     }
 
+    //TODO
     private fd.backend.blockchain.model.user.User convertUserDtoToEntity(UserDto user) {
         return new fd.backend.blockchain.model.user.User(
                 null,
-                user.getCompanyName(),
                 passwordEncoder.encode(user.getPassword()),
-                Collections.singleton(user.getRole())
+                Collections.singleton(user.getRole()),
+                null
         );
     }
 }
