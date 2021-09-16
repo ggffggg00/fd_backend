@@ -1,5 +1,6 @@
 package fd.backend.blockchain.model.company;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
@@ -46,6 +47,7 @@ public class Company {
     @Column(name = "phone", nullable = false)
     private String contactPhoneNumber;
 
+    @JsonIgnore
     @Column(name = "aes_key", nullable = true)
     private String aesKey;
 
