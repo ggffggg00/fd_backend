@@ -9,7 +9,6 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
     private String password;
-    private String companyName;
     private CompanyDto company;
     private Role role;
 

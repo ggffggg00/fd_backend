@@ -16,18 +16,17 @@ public class UserController {
     private UserService userService;
 
     /**
-     * {
-     *     "password":"500",
-     *     "companyName":"ООО НСК-ДОМ",
-     *     "role":"CARRIER",
-     *     "company": {
-     *         "title":"ООО тест",
-     *         "tax_id":"TAKSA",
-     *         "ogrn":"ogrin",
-     *         "legal_address":"legalAddress",
-     *         "phone":"8903"
-     *     }
-     * }
+     *       {
+     *          "password":"500",
+     *          "role":"CARRIER",
+     *          "company": {
+     *             "title":"ООО тест zakhlevnynm2",
+     *              "tax_id":"TAKSA",
+     *             "ogrn":"ogrin",
+     *              "legal_address":"legalAddress",
+     *              "phone":"8903"
+     *          }
+     *       }
      */
     @PostMapping(REGISTER_URL)
     @ResponseStatus(HttpStatus.OK)

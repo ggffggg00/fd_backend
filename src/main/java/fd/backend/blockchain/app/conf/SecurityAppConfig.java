@@ -28,6 +28,7 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/secured/**", "/api/*").hasRole("CARRIER")
                     .antMatchers("/actuator/*").permitAll()
                     .antMatchers("/login/").permitAll()
+                    .antMatchers("/user/*").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()

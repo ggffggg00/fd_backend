@@ -53,7 +53,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String companyTitle) throws UsernameNotFoundException {
         var user = userRepository.findByCompany(
-                companyRepository.findByTitle(companyTitle).getTitle()
+                companyRepository.findByTitle(companyTitle)
         );
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User '%s' not found", companyTitle));
