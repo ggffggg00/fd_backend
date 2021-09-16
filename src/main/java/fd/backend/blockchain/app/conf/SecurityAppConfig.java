@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.management.ObjectName;
+import java.util.UUID;
 
 @Configuration
 public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
@@ -30,13 +31,13 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/actuator/*").permitAll()
                     .antMatchers("/login/").permitAll()
                     .antMatchers("/static/*").permitAll()
-                    .antMatchers("/user/*").permitAll()
+                    .antMatchers("/user/*").permitAll() //Удалить?
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
                     .loginPage("/login")
                     .permitAll()
-                .defaultSuccessUrl("/consignment/user")
+                .defaultSuccessUrl("/company/info/all") //TODO: редирект на страницу после авторизации - ИЗМЕНИТЬ
                     .and()
                 .logout()
                     .deleteCookies("JSESSIONID")
@@ -53,11 +54,6 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-    /**
-     * This method setting up DaoAuthenticationProvider for security
-     * @see Bean
-     * @return encoder password object
-     */
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(
             @Qualifier("bCryptEncode") PasswordEncoder passwordEncoder) {

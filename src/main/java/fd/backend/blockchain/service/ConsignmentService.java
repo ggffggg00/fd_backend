@@ -61,9 +61,16 @@ public class ConsignmentService {
         return consignment;
     }
 
+    public void transferConsignment(UUID consignmentId) throws Exception {
+        Consignment consignment = consignmentRepository.findById(consignmentId)
+                .orElseThrow(() -> new Exception("Not found consignment by Id"));
+        Company companyFrom = consignment.getSender(); //TODO: компания from - отправитель
+        Company companyTo = consignment.getReceiver(); //TODO: компания to - получатель
+        log.info(consignment + " INFO");
+        changeConsignmentOwner(consignment, companyFrom, companyTo);
+    }
 
-
-    public void changeConsignmentOwner(Consignment consignment, Company from, Company to){
+    private void changeConsignmentOwner(Consignment consignment, Company from, Company to){
         var block = new ConsignmentBlock(consignment, to, from)
                 .signBlock(SAME_SECRET);
         blockchain.notifyBlockchainNodes(block);
@@ -77,6 +84,11 @@ public class ConsignmentService {
     public Collection<Consignment> getConsignmentInfo(String email) {
         User user = userRepository.findByEmail(email);
         return getUserConsignments(user);
+    }
+
+    public Consignment getConsignmentsById(UUID consignmentId) throws Exception {
+        return consignmentRepository.findById(consignmentId)
+                .orElseThrow(() -> new Exception("Consignments not found"));
     }
 
     /**

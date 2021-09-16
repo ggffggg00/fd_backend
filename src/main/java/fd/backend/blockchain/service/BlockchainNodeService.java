@@ -7,6 +7,7 @@ import fd.backend.blockchain.model.BlockChainNode;
 import fd.backend.blockchain.model.consignment.ConsignmentBlock;
 import fd.backend.blockchain.repo.BlockChainNodeRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,23 +19,24 @@ import java.util.concurrent.Executors;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class BlockchainNodeService {
 
-    private final BlockChainNodeRepo repo;
+    private final BlockChainNodeRepo blockChainNodeRepo;
     private final RestTemplate restTemplate = new RestTemplate();
     private final ExecutorService service = Executors.newCachedThreadPool();
     private final OkHttpClient client = new OkHttpClient();
 
     public BlockChainNode registerNode(BlockChainNode node) {
-        return repo.save(node);
+        return blockChainNodeRepo.save(node);
     }
 
     public void unregisterNode(BlockChainNode node) {
-        repo.delete(node);
+        blockChainNodeRepo.delete(node);
     }
 
     public Collection<BlockChainNode> getAllNodes() {
-        return repo.findAll();
+        return blockChainNodeRepo.findAll();
     }
 
     @Scheduled(fixedRate = 10000)
@@ -43,7 +45,7 @@ public class BlockchainNodeService {
     }
 
     public void notifyBlockchainNodes(ConsignmentBlock block){
-
+        log.info("Ожидаем разрешение!!!");
         getAllNodes().forEach((node)->{
             service.execute(() -> {
                 try {
@@ -54,7 +56,7 @@ public class BlockchainNodeService {
             });
             service.shutdown();
         });
-
+        log.info("Разрешено!!!");
     }
 
     private String requestToNode(BlockChainNode node, ConsignmentBlock block){
