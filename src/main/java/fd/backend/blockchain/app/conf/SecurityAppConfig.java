@@ -24,7 +24,7 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/secured/**", "/api/*").hasRole("CARRIER")
+                    .antMatchers("/secured/*", "/api/*").hasRole("CARRIER")
                     .antMatchers("/actuator/*").permitAll()
                     .antMatchers("/login/").permitAll()
                     .antMatchers("/static/*").permitAll()
