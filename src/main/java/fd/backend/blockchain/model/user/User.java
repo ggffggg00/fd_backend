@@ -1,10 +1,8 @@
 package fd.backend.blockchain.model.user;
 
 import fd.backend.blockchain.model.company.Company;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,6 +11,7 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "users", schema = "public")
 @Entity
 public class User {
@@ -23,6 +22,9 @@ public class User {
 
     @Column
     private String password;
+
+    @Column
+    private String email;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

@@ -1,9 +1,6 @@
 package fd.backend.blockchain.model.company;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -21,6 +18,7 @@ import java.util.UUID;
 @Entity(name = "company")
 @RequiredArgsConstructor
 @Accessors(chain = true)
+@Builder
 public class Company {
 
     @Id

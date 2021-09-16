@@ -17,13 +17,14 @@ public class UserController {
 
     /**
      *       {
-     *          "password":"500",
+     *         "password":"500",
      *          "role":"CARRIER",
+     *          "email":"test@mail.ru",
      *          "company": {
-     *             "title":"ООО тест zakhlevnynm2",
-     *              "tax_id":"TAKSA",
-     *             "ogrn":"ogrin",
-     *              "legal_address":"legalAddress",
+     *             "title":"ООО testEmail",
+     *              "tax_id":"50",
+     *             "ogrn":"ogrn",
+     *              "legal_address":"Шамшиных 21",
      *              "phone":"8903"
      *          }
      *       }

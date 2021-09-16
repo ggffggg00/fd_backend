@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -51,14 +52,10 @@ public class UserService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String companyTitle) throws UsernameNotFoundException {
-        var user = userRepository.findByCompany(
-                companyRepository.findByTitle(companyTitle)
-        );
-        if (user == null) {
-            throw new UsernameNotFoundException(String.format("User '%s' not found", companyTitle));
-        }
-        return new User(user.getCompany().getTitle(), user.getPassword(), listAuthority(user.getRoles()));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        var user = Optional.of(userRepository.findByEmail(email))
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", email)));
+        return new User(user.getEmail(), user.getPassword(), listAuthority(user.getRoles()));
     }
 
     /**
@@ -72,26 +69,26 @@ public class UserService implements UserDetailsService {
 
     /**
      * Конвертер красивый!
-     * @param user
+     * @param userDto
      * @return
      */
-    private fd.backend.blockchain.model.user.User convertUserDtoToEntity(UserDto user) {
-        var userEntity = new fd.backend.blockchain.model.user.User();
-        userEntity.setId(null);
-        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
-        userEntity.setRoles(Collections.singleton(user.getRole()));
-        userEntity.setCompany(convertCompanyDtotoCompany(user.getCompany()));
-        return userEntity;
+    private fd.backend.blockchain.model.user.User convertUserDtoToEntity(UserDto userDto) {
+        return fd.backend.blockchain.model.user.User.builder()
+                .email(userDto.getEmail())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .roles(Collections.singleton(userDto.getRole()))
+                .company(convertCompanyDtoToCompany(userDto.getCompany()))
+                .build();
     }
     
-    private Company convertCompanyDtotoCompany(CompanyDto companyDto) {
-        Company company = new Company();
-        company.setId(company.getId());
-        company.setLegalAddress(companyDto.getLegalAddress());
-        company.setOgrn(companyDto.getOgrn());
-        company.setTaxIdentifier(companyDto.getTaxIdentifier());
-        company.setTitle(companyDto.getTitle());
-        company.setContactPhoneNumber(companyDto.getContactPhoneNumber());
-        return company;
+    private Company convertCompanyDtoToCompany(CompanyDto companyDto) {
+        return Company.builder()
+                .contactPhoneNumber(companyDto.getContactPhoneNumber())
+                .legalAddress(companyDto.getLegalAddress())
+                .taxIdentifier(companyDto.getTaxIdentifier())
+                .ogrn(companyDto.getOgrn())
+                .title(companyDto.getTitle())
+                .build();
+
     }
 }
