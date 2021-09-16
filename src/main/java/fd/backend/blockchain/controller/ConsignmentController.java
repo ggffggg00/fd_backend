@@ -6,18 +6,17 @@ import fd.backend.blockchain.model.consignment.ConsignmentCreationRequest;
 import fd.backend.blockchain.service.AuthenticationService;
 import fd.backend.blockchain.service.ConsignmentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("consignment")
+@RequestMapping("/consignment")
 public class ConsignmentController {
 
     final ConsignmentService consignmentService;
@@ -41,11 +40,18 @@ public class ConsignmentController {
         return consignmentService.createConsignment(request);
     }
 
-    @GetMapping("/")
-    public Collection<Consignment> getConsignments(){
-        authenticationService.getAuthenticatedUser();
-        return Collections.emptyList();
+    @GetMapping("/user")
+    public Collection<Consignment> getConsignments() {
+        log.info("AAAAAAAAAAAAAAAAAAAAAAAA");
+        return consignmentService.getConsignmentInfo(
+                authenticationService.getAuthenticatedUserEmail()
+        );
     }
+
+//    @GetMapping("/{id}")
+//    public Consignment getConsignmentsById(@PathVariable UUID id) {
+//        return null;
+//    }
 
 
 }

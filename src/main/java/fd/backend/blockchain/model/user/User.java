@@ -14,6 +14,7 @@ import java.util.Set;
 @Builder
 @Table(name = "users", schema = "public")
 @Entity
+@ToString
 public class User {
 
     @Id
@@ -31,7 +32,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;
 

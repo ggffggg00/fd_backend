@@ -1,5 +1,7 @@
 package fd.backend.blockchain.model;
 
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.Table;
 
 @Entity(name = "port")
 @Table(name = "port", schema = "public")
+@ToString
 public class Port {
 
     @Id

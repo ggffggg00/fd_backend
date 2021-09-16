@@ -19,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Accessors(chain = true)
 @Builder
+@ToString
 public class Company {
 
     @Id

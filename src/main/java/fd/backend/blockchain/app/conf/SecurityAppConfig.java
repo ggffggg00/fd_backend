@@ -36,6 +36,7 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .loginPage("/login")
                     .permitAll()
+                .defaultSuccessUrl("/consignment/user")
                     .and()
                 .logout()
                     .deleteCookies("JSESSIONID")
