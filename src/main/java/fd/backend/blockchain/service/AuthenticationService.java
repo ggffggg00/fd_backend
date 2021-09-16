@@ -2,6 +2,8 @@ package fd.backend.blockchain.service;
 
 import fd.backend.blockchain.model.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -10,8 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService {
 
+    @Autowired
+    @Qualifier("securityContext")
+    private Authentication authentication;
+
     public User getAuthenticatedUser(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        var authUser = authentication.getPrincipal();
         return null;
     }
 
