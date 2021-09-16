@@ -1,6 +1,5 @@
 package fd.backend.blockchain.app.conf;
 
-import fd.backend.blockchain.model.user.Role;
 import fd.backend.blockchain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,11 +12,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-import javax.management.ObjectName;
-import java.util.UUID;
 
 @Configuration
+@CrossOrigin
 public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
