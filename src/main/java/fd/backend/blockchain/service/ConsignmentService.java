@@ -70,7 +70,13 @@ public class ConsignmentService {
         changeConsignmentOwner(consignment, companyFrom, companyTo);
     }
 
-    private void changeConsignmentOwner(Consignment consignment, Company from, Company to){
+    private void changeConsignmentOwner(Consignment consignment, Company from, Company to) {
+        //flag = false при from==null иначе true
+        if (from == null) {
+            consignment.setFlagTransfer(false);
+        } else {
+            consignment.setFlagTransfer(true);
+        }
         var block = new ConsignmentBlock(consignment, to, from)
                 .signBlock(SAME_SECRET);
         blockchain.notifyBlockchainNodes(block);

@@ -53,5 +53,7 @@ public class Consignment {
     @Column(name = "cargo_data")
     private String cargoData;
 
+    @Column(name = "flag_transfer")
+    private Boolean flagTransfer;
 
 }
