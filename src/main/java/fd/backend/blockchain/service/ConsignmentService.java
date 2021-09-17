@@ -52,6 +52,7 @@ public class ConsignmentService {
                         .departurePort(departurePort)
                         .sender(sender)
                         .receiver(receiver)
+                        .flagTransfer(false)
                         .cargoData(encryptCargoData(request.getCargoData(), sender))
                         .build());
         changeConsignmentOwner(consignment,null, sender);
@@ -72,12 +73,8 @@ public class ConsignmentService {
     }
 
     private void changeConsignmentOwner(Consignment consignment, Company from, Company to) {
-        //flag = false при from==null иначе true
-        if (from == null) {
-            consignment.setFlagTransfer(false);
-        } else {
-            consignment.setFlagTransfer(true);
-        }
+        consignment.setFlagTransfer(from != null);
+        consignmentRepository.save(consignment);
         var block = new ConsignmentBlock(consignment, to, from)
                 .signBlock(SAME_SECRET);
         blockchain.notifyBlockchainNodes(block);

@@ -39,7 +39,7 @@ public class BlockchainNodeService {
         return blockChainNodeRepo.findAll();
     }
 
-    //    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 10000)
     public void invalidateInactiveNodes() {
         getAllNodes().forEach(this::checkNode);
     }

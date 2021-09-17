@@ -1,6 +1,7 @@
 package fd.backend.blockchain.app.conf;
 
 import fd.backend.blockchain.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +29,7 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/static/**"); // #3
+                .antMatchers("/static/**");
     }
 
     @Override
@@ -37,25 +38,21 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
 //                    .antMatchers("/**").permitAll()
-                    .antMatchers("/secured/*", "/api/*").hasRole("CARRIER")
-                    .antMatchers("/actuator/*").permitAll()
-                    .antMatchers("/registry/**").permitAll()
-                    .antMatchers("/static/**").permitAll()
-                    .antMatchers("/user/*").permitAll() //Удалить?
-                    .anyRequest().authenticated()
-                    .and()
+                .antMatchers("/secured/*", "/api/*").hasRole("CARRIER")
+                .antMatchers("/actuator/**").permitAll()
+                .antMatchers("/registry/*").permitAll()
+                .antMatchers("/static/**").permitAll()
+                .antMatchers("/user/*").permitAll()
+                .anyRequest().authenticated()
+                .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                    .defaultSuccessUrl("/company/info/all") //TODO: редирект на страницу после авторизации - ИЗМЕНИТЬ
-                    .and()
+                .loginPage("/login")
+                .permitAll()
+                .defaultSuccessUrl("/admin")
+                .and()
                 .logout()
-                    .deleteCookies("JSESSIONID")
-                    .permitAll().and()
-                .rememberMe()
-                    .key("SameFuckenSecret")
-                    .rememberMeParameter("remember-me")
-                    .tokenValiditySeconds(86400000);
+                .deleteCookies("JSESSIONID")
+                .permitAll();
 
     }
 
