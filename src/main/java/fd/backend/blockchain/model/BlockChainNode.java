@@ -31,7 +31,7 @@ public class BlockChainNode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Integer id;
 
     @Column(name = "host", nullable = false)
     private String host;

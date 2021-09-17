@@ -28,6 +28,7 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/secured/*", "/api/*").hasRole("CARRIER")
                     .antMatchers("/actuator/*").permitAll()
+                    .antMatchers("/registry/**").permitAll()
                     .antMatchers("/login/").permitAll()
                     .antMatchers("/static/*").permitAll()
                     .antMatchers("/user/*").permitAll() //Удалить?
