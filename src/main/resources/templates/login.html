@@ -1,34 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Form</title>
-    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/static/login.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+          rel="stylesheet">
 </head>
 <body>
+<div class="wrapper">
+    <div class="wrap_item" id="item_1">
+        <div class="wrap_text"><h1 class="text">Блокчейн ждет!</h1></div>
+    </div>
+    <div class="wrap_item" id="item_2">
+        <form th:action="@{/login}" method="post">
+            <div class="form">
+                <h1>Вход в аккаунт</h1>
+                <h5>Для входа в систему работы с коносаментами войдите в
+                    аккауне</h5>
+                <div class="name">Адрес электронной почты</div>
 
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
+                <div class="email_wrap">
+                    <input type="email" name="username" placeholder="">
+                    <p th:if="${param.error}" class="error_text">Неверный E-Mail
+                        или пароль!</p>
+                    <div class="pass">Пароль</div>
+                </div>
+                <div class="pass_wrap">
+                    <input type="password" name="password" placeholder="">
+                </div>
+                <div class="hz_chto_eto">
 
-<div class="form">
-    <form th:action="@{/login}" method="post">
-        <h1>Авторизация</h1>
-        <div class="input-form">
-            <input type="text" name="username" placeholder="Введите E-mail">
-        </div>
-        <div class="input-form">
-            <input type="password" name="password" placeholder="Введите пароль">
-        </div>
-        <div class="input-form">
-            <input type="submit" value="Войти">
-        </div>
-        <a href="#" class="forget">Забыли пароль?</a>
-    </form>
-</div>
+                    <div class="remember"><input type="checkbox"
+                                                 name="remember-me"
+                                                 value="on"
+                                                 class="checkbox"
+                                                 id="check">
+                        <label for="check"></label>
+                        <p>Запомнить меня</p></div>
 
+                    <a href="#" class="forget">Забыли пароль?</a>
+                    <div class="popup" onclick="myFunction()">
+                        <span class="popuptext"
+                              id="myPopup">Ну ты не забывай</span>
+                    </div>
+
+                </div>
+                <input type="submit" value="Войти">
+            </div>
+        </form>
+
+    </div>
+</div>
 </body>
 </html>

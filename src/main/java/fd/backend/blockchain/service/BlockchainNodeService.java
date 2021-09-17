@@ -39,27 +39,26 @@ public class BlockchainNodeService {
         return blockChainNodeRepo.findAll();
     }
 
-    @Scheduled(fixedRate = 10000)
+    //    @Scheduled(fixedRate = 10000)
     public void invalidateInactiveNodes() {
         getAllNodes().forEach(this::checkNode);
     }
 
-    public void notifyBlockchainNodes(ConsignmentBlock block){
+    public void notifyBlockchainNodes(ConsignmentBlock block) {
         log.info("Ожидаем разрешение!!!");
         getAllNodes().forEach((node)->{
             service.execute(() -> {
                 try {
-                    requestToNode(node, block);
-                }catch (Exception e){
+                    log.info(requestToNode(node, block));
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
-            service.shutdown();
         });
         log.info("Разрешено!!!");
     }
 
-    private String requestToNode(BlockChainNode node, ConsignmentBlock block){
+    private String requestToNode(BlockChainNode node, ConsignmentBlock block) {
         return restTemplate.postForEntity("http://" + node.getHost() + "/chain/append",
                 block, String.class).getBody();
     }
@@ -70,8 +69,9 @@ public class BlockchainNodeService {
                 .build();
         try {
             Response response = client.newCall(request).execute();
-            if (response.code() != 200)
+            if (response.code() != 200) {
                 unregisterNode(node);
+            }
         } catch (IOException e) {
             unregisterNode(node);
         }

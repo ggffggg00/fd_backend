@@ -47,7 +47,6 @@ public class Company {
     @Column(name = "phone", nullable = false)
     private String contactPhoneNumber;
 
-    @JsonIgnore
     @Column(name = "aes_key", nullable = true)
     private String aesKey;
 

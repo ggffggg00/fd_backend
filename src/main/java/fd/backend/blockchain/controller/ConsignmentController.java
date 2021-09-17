@@ -19,12 +19,12 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin
 @RequestMapping("/consignment")
 public class ConsignmentController {
 
     final ConsignmentService consignmentService;
     final AuthenticationService authenticationService;
-
 
     /**
      * {
@@ -88,6 +88,7 @@ public class ConsignmentController {
         }
         return ResponseEntity.ok().build();
     }
+
 
 
 
