@@ -10,6 +10,7 @@ import java.util.UUID;
 @Repository
 public interface ConsignmentRepository extends JpaRepository<Consignment, UUID> {
 
-    Collection<Consignment> findAllBySenderId(UUID senderId);
+    Collection<Consignment> findAllBySenderIdAndFlagTransfer(UUID senderId, Boolean flag);
+    Collection<Consignment> findAllByReceiverIdAndFlagTransfer(UUID senderId, Boolean flag);
 
 }

@@ -17,9 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -66,6 +64,9 @@ public class ConsignmentService {
                 .orElseThrow(() -> new Exception("Not found consignment by Id"));
         Company companyFrom = consignment.getSender(); //TODO: компания from - отправитель
         Company companyTo = consignment.getReceiver(); //TODO: компания to - получатель
+//        if true то ретурн иначе выполнить трансфер
+        // так и надо
+        if (consignment.getFlagTransfer() == true) return;
         log.info(consignment + " INFO");
         changeConsignmentOwner(consignment, companyFrom, companyTo);
     }
@@ -103,8 +104,10 @@ public class ConsignmentService {
      * @return
      */
     private Collection<Consignment> getUserConsignments(User user){
-        log.info(consignmentRepository.findAllBySenderId(user.getCompany().getId()).toString());
-        return consignmentRepository.findAllBySenderId(user.getCompany().getId());
+        Collection<Consignment> col1 = consignmentRepository.findAllBySenderIdAndFlagTransfer(user.getCompany().getId(), false);
+        Collection<Consignment> col2 = consignmentRepository.findAllByReceiverIdAndFlagTransfer(user.getCompany().getId(), true);
+        col1.addAll(col2);
+        return col1;
     }
 
     private String encryptCargoData(String cargoData, Company senderCompany) {
