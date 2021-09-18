@@ -43,7 +43,7 @@ public class ConsignmentService {
                 .findById(UUID.fromString(request.getSenderId()))
                 .orElseThrow(() -> new IllegalArgumentException("Sender not found"));
         var receiver = companyRepository
-                .findById(UUID.fromString(request.getSenderId()))
+                .findById(UUID.fromString(request.getReceiverId()))
                 .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
 
         var consignment = consignmentRepository.save(

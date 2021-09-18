@@ -7,7 +7,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @ControllerAdvice
 public class ExceptionController {
 
-
     @ExceptionHandler(NoHandlerFoundException.class)
     public String handle(Exception ex) {
         return "admin";
